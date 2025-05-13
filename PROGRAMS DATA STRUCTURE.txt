@@ -1,0 +1,1094 @@
+SINGLE LINKED LIST
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+struct node
+{
+    int info;
+    struct node * next;
+};
+struct node * head=NULL;
+void main()
+{
+    int i,n,num;
+    struct node * ptr;
+    printf("enter number of nodes ->");
+    scanf("%d",&n);
+    //creating a linked list
+    for(i=0;i<n;i++)
+    {
+        printf("enter info of node ->");
+        scanf("%d",&num);
+        struct node *nn;
+        nn=(struct node *)malloc(sizeof(struct node));
+        nn->info=num;
+        if(head==NULL)
+        {
+            head=ptr=nn;
+            nn->next=NULL;
+        }
+        else
+        {
+            ptr->next=nn;
+            ptr=nn;
+        }
+        
+    }
+    //display
+    for(i=0;i<n;i++)
+    {
+        if(head==NULL)
+        {
+           printf("list is empty");
+        }
+        else
+        {
+           printf("%d->",head->info);
+           head=head->next;
+        }
+        
+    }
+    
+}
+
+
+
+
+DOUBLE LINKED LIST
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    struct node *prev;
+    int info;
+    struct node *next;
+};
+struct node * start=NULL;
+
+void insert_at_beg(int a)
+{
+    struct node *nn;
+    nn=(struct node*)(malloc(sizeof(struct node)));
+    if(nn==NULL)
+    {
+        printf("overflow");
+        return;
+    }
+    nn->info=a;
+    nn->prev=NULL;
+    if(start==NULL)
+    {
+        nn->next=NULL;
+        start=nn;
+        return;
+    }
+    //nn->prev=NULL;
+    nn->next=start;
+    start->prev=nn;
+    start=nn;
+    return;
+}
+
+int delete_at_beg()
+{
+    int dn;
+    struct node * ptr;
+    if(start==NULL)
+    {
+        printf("underflow");
+        return NULL;
+    }
+    ptr=start;
+    dn=ptr->info;
+    start=ptr->next;
+    if(ptr->next!=NULL)
+    {
+        (ptr->next)->prev=NULL;
+        free(ptr);
+        return dn;
+    }
+    free(ptr);
+    return dn;
+}
+
+void display()
+{
+    struct node *ptr;
+    if(start==NULL)
+    {
+        printf("EMPTY");
+        return;
+    }
+    ptr=start;
+    while(ptr!=NULL)
+    {
+        printf("%d->",ptr->info);
+        ptr=ptr->next;
+    }
+    return;
+}
+
+void main()
+{
+    int ch,num,dn;
+    do
+    {
+        printf("\nMENU\n1.INSERTION\n2.DISPLAY\n3.DELETION\n4.EXIT\n");
+        printf("enter your choice->");
+        scanf("%d",&ch);
+        switch (ch)
+        {
+        case 1:
+            printf("enter info:");
+            scanf("%d",&num);
+            insert_at_beg(num);
+            break;
+        case 2:
+          display();
+          break;
+        case 3:
+          dn=delete_at_beg();
+          printf("\ndeleted number is %d",dn);
+          break;   
+        case 4:
+          printf("pgm ends");
+          break;
+        default:
+            printf("invalid choice");
+            break;
+        }
+    } while (ch!=4);
+    
+}
+
+
+STACK
+STATIC
+#include<stdio.h>
+#include<conio.h>
+int stack[5];
+int top=-1;
+
+void push(int i)
+{
+    if(top==4)
+    {
+        printf("overflow");
+        return;
+    }
+    top++;
+    stack[top]=i;
+    return;
+}
+
+void pop()
+{
+    int dn;
+    if(top==-1)
+    {
+        printf("underflow");
+        return;
+    }
+    dn=stack[top];
+    top--;
+    printf("\ndeleted data is %d",dn);
+}
+
+void display()
+{
+    int i;
+    if(top==-1)
+    {
+        printf("empty");
+        return;
+    }
+    else
+    {
+        for(i=top;i>=0;i--)
+        {
+            printf("\n%d->",stack[i]);
+        }
+    }
+    
+}
+
+void main()
+{
+    int i,ch;
+    do{
+        printf("\nMENU\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\n");
+        printf("enter ur choice ->");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            printf("enter data ->");
+            scanf("%d",&i);
+            push(i);
+            break;
+            case 2:
+            pop();
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            printf("pgm ends");
+            break;
+            default:
+            printf("invslid choice");
+        }    
+    }while(ch!=4);
+}
+
+DYNAMIC
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+//dynamic stack
+struct node 
+{
+    int info;
+    struct node * next;
+};
+struct node *top=NULL;
+
+void insert(int a)
+{
+    struct node *nn;
+    nn=(struct node *)(malloc(sizeof(struct node)));
+    if (nn==NULL)
+    {
+        printf("overflow");
+        return;
+    }
+    nn->info=a;
+    if(top==NULL)
+    {
+        top=nn;
+        nn->next=NULL;
+        return;
+    }
+    nn->next=top;
+    top=nn;
+}
+
+int delete()
+{
+    struct node * ptr;
+    int dn;
+    if(top==NULL)
+    {
+        printf("underflow");
+        return 0;
+    }
+    ptr=top;
+    top=ptr->next;
+    dn=ptr->info;
+    free(ptr);
+    return dn;
+}
+
+void display()
+{
+    struct node * ptr;
+    int dn;
+    if(top==NULL)
+    {
+        printf("empty");
+        return;
+    }
+    ptr=top;
+    while(ptr!=NULL)
+    {
+        printf("%d->\n",ptr->info);
+        ptr=ptr->next;
+    }
+    return;
+}
+
+void main()
+{
+    int num,ch;
+    do{
+        printf("\nMENU\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\nEnter your choice => ");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            printf("enter info => ");
+            scanf("%d",&num);
+            insert(num);
+            break;
+            case 2:
+            printf("deleted number is %d",delete());
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            printf("~~~~~~~~~pgm ends~~~~~~~~");
+            default:
+            printf("wrong choice");
+            break;
+        }
+    }while(ch!=4);
+}
+
+
+QUEUE
+STATIC
+#include<stdio.h>
+#include<conio.h>
+
+int queue[5];
+int rear=-1;
+int front=-1;
+void push(int a)
+{
+    if(rear==4)
+    {
+        printf("overflow");
+        return;
+    }
+    else
+    {
+        if(rear==-1 && front==-1)
+        {
+          front=0;
+          queue[++rear]=a;
+          return;
+        }
+        else
+        {
+            queue[++rear]=a;
+            return;
+        }
+    }
+    
+}
+
+int pop()
+{
+    int dn;
+    if(front==-1)
+    {
+        printf("underflow");
+        return 0;
+    }
+    if(front==rear)
+    {
+        dn=queue[rear];
+        front=rear=-1;
+        return dn;
+    }
+    dn=queue[front];
+    front+=1;
+    return dn;
+}
+
+void display()
+{
+    int i;
+    if(rear==-1)
+    {
+        printf("empty");
+        return ;
+    }
+    printf("rear = %d\n",rear);
+    printf("front = %d\n",front);
+    for(i=front;i<=rear;i++)
+    {
+        printf("%d->\n",queue[i]);
+    }
+    return;
+}
+
+void main()
+{
+    int num,ch;
+    do{
+        printf("\nMENU\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\nEnter your choice => ");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            printf("enter info => ");
+            scanf("%d",&num);
+            push(num);
+            break;
+            case 2:
+            printf("deleted number is %d",pop());
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            printf("~~~~~~~~~pgm ends~~~~~~~~");
+            default:
+            printf("wrong choice");
+            break;
+        }
+    }while(ch!=4);
+}
+
+
+DYNAMIC
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+struct node
+{
+    int info;
+    struct node * next;
+};
+struct node * front=NULL;
+struct node * rear=NULL;
+
+void push(int a)
+{
+    struct node * nn;
+    nn=(struct node *)(malloc(sizeof(struct node)));
+    if(nn==NULL)
+    {
+        printf("overflow");
+        return;
+    }
+    nn->info=a;
+    nn->next=NULL;
+    if(rear==NULL || front==NULL)
+    {
+        front=nn;
+    }
+    else
+    {
+        rear->next=nn;
+    }
+    rear=nn;
+    return;
+    
+}
+
+int pop()
+{
+    int dn;
+    struct node * ptr,* pre;
+    if(rear==NULL)
+    {
+        printf("underflow");
+        return ;
+    }
+    ptr=rear;
+    if(front==rear)
+    {
+        dn=rear->info;
+        rear=front=NULL;
+        free(ptr);
+        return dn;
+    }
+    pre=front;
+    front=pre->next;
+    dn=pre->info;
+    free(pre);
+    return dn;
+}
+
+
+void display()
+{
+    struct node * ptr;
+    if(rear==NULL)
+    {
+        printf("empty");
+        return ;
+    }
+    ptr=front;
+    while(ptr!=NULL)
+    {
+        printf("%d->\n",ptr->info);
+        ptr=ptr->next;
+    }
+    return;
+}
+
+void main()
+{
+    int num,ch;
+    do{
+        printf("\nMENU\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\nEnter your choice => ");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            printf("enter info => ");
+            scanf("%d",&num);
+            push(num);
+            break;
+            case 2:
+            printf("deleted number is %d",pop());
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            printf("~~~~~~~~~pgm ends~~~~~~~~");
+            default:
+            printf("wrong choice");
+            break;
+        }
+    }while(ch!=4);
+}
+
+
+MERGESORT
+#include<stdio.h>
+#include<conio.h>
+
+void merge(int a[],int l,int mid,int h)
+{
+    int lf=l,rf=mid+1,ti=l,rl=h,ll=mid,i;
+    int b[10];
+    while(lf<=ll && rf<=rl)
+    {
+        if(a[lf]<=a[rf])
+        {
+            b[ti]=a[lf];
+            ti++;
+            lf++;
+        }
+        else
+        {
+            b[ti]=a[rf];
+            ti++;
+            rf++;
+        }
+    }
+        while(lf<=ll)
+        {
+            b[ti]=a[lf];
+            ti++;
+            lf++;
+        }
+         while(rf<=rl)
+        {
+            b[ti]=a[rf];
+            ti++;
+            rf++;
+        }
+        for(i=l;i<=h;i++)
+        {
+            a[i]=b[i];
+        }
+    }
+
+
+void mergesort(int a[],int l,int h)
+{
+    int mid;
+    if(l<h)
+    {
+        mid=(l+h)/2;
+        mergesort(a,l,mid);
+        mergesort(a,mid+1,h);
+        merge(a,l,mid,h);
+    }
+}
+
+
+
+void main()
+{
+    int a[10],i;
+    for(i=0;i<10;i++)
+    {
+        printf("a[%d]",i);
+        scanf("%d",&a[i]);
+    }
+    mergesort(a,0,9);
+    printf("sorted list \n");
+    
+    for(i=0;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+    getch();
+}
+
+
+
+
+QUICKSORT
+#include<stdio.h>
+#include<conio.h>
+
+int partition(int a[],int l,int h)
+{
+    int pivot=a[l],i=l+1,j=h,t;
+    while(i<=j)
+    {
+        while(pivot>a[i])
+        {
+            i++;
+        }
+        while(pivot<a[j])
+        {
+            j--;
+        }
+        if(i<j)
+        {
+            t=a[i];
+            a[i]=a[j];
+            a[j]=t;
+        }
+    }
+    t=a[l];
+    a[l]=a[j];
+    a[j]=t;
+    return j;
+}
+
+void quicksort(int a[],int l,int h)
+{
+    int p;
+    if(l<h)
+    {
+        p=partition(a,l,h);
+        quicksort(a,l,p-1);
+        quicksort(a,p+1,h);
+    }
+}
+
+
+void main()
+{
+    int a[10],i;
+    for(i=0;i<10;i++)
+    {
+        printf("a[%d]=",i);
+        scanf("%d",&a[i]);
+    }
+    quicksort(a,0,9);
+    printf("sorted list \n");
+    
+    for(i=0;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+    getch();
+}
+
+BUBBLESORT
+//bubblesort
+#include<stdio.h>
+void input(int a[],int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+    {
+        printf("enter elementa[%d] : ",i);
+        scanf("%d",&a[i]);
+    }
+}
+
+void bubblesort(int a[],int n)
+{
+    int c,i,j;
+    for(i=0;i<n-1;i++)
+    {
+        for(j=0;j<n-i-1;j++)
+        {
+            if(a[j]>a[j+1])
+            {
+                c=a[j];
+                a[j]=a[j+1];
+                a[j+1]=c;
+            }
+        }
+    }
+    printf("sorted array :\n");
+    for(i=0;i<n;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+}
+
+void main()
+{
+    int a[10];
+    printf("enter element :\n");
+    input(a,10);
+    bubblesort(a,10);
+}
+
+
+INSERTION SORT
+//insertion sort
+#include<stdio.h>
+void insertionsort(int a[],int n)
+{
+    int i,j,c,temp;
+    for(i=1;i<n;i++)
+    {
+        c=a[i];
+        j=i-1;
+        while(a[j]>c && j>=0)
+        {
+            a[j+1]=a[j];
+            j--;
+        }
+        a[j+1]=c;
+    }
+}
+
+void input(int a[],int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+    {
+        printf("enter element[%d] = ",i);
+        scanf("%d",&a[i]);
+    }
+}
+
+void main()
+{
+    int i,a[10];
+    printf("enter element in an array : \n");
+    input(a,10);
+    insertionsort(a,10);
+    printf("sorted list : \n");
+    for(i=0;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+}
+
+
+HEAPSORT
+#include<stdio.h>
+#include<conio.h>
+void maxheapify(int a[],int f,int size);
+
+void maxheap(int a[],int beg,int size)
+{
+    int i;
+    for(i=(size/2);i>=beg;i--)
+    {
+        maxheapify(a,i,size);
+    }
+}
+
+void maxheapify(int a[],int f,int size)
+{
+    int max=f,l=f*2,r=f*2+1,t;
+    if(l<=size && a[l]>a[max])
+    {
+        max=l;
+    }
+    if(r<=size && a[r]>a[max])
+    {
+        max=r;
+    }
+    if(f!=max)
+    {
+        t=a[f];
+        a[f]=a[max];
+        a[max]=t;
+        maxheapify(a,max,size);
+    }
+}
+
+
+void heapsort(int a[],int size)
+{
+    int i,t;
+    for (i=size;i>1;i--)
+    {
+        t=a[1];
+        a[1]=a[i];
+        a[i]=t;
+        
+        maxheapify(a, 1,i-1 );
+    }
+}
+
+void main()
+{
+    int a[10],i;
+    for(i=1;i<10;i++)
+    {
+        printf("enter a[%d]=",i);
+        scanf("%d",&a[i]);
+    }
+    maxheap(a,1,9);
+    heapsort(a,9);
+    printf("sorted list :\n");
+    
+    for(i=1;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+}
+
+
+
+
+SELECTION SORT
+#include<stdio.h>
+#include<conio.h>
+void selectionsort(int a[],int size)
+{
+    int i,j,pos,t;
+    for(i=0;i<=size-1;i++)
+    {
+        pos=i;
+        for(j=1+i;j<size;j++)
+        {
+            if(a[pos]>a[j])
+            {
+                pos=j;
+            }
+        }
+        if(pos!=i)
+        {
+            t=a[i];
+            a[i]=a[pos];
+            a[pos]=t;
+        }
+    }
+}
+
+void main()
+{
+    int a[10],i;
+    for(i=0;i<10;i++)
+    {
+        printf("enter a[%d]=",i);
+        scanf("%d",&a[i]);
+    }
+    selectionsort(a,10);
+    printf("sorted list :\n");
+    
+    for(i=0;i<10;i++)
+    {
+        printf("%d\t",a[i]);
+    }
+}
+
+
+LINEAR SEARCH
+#include<stdio.h>
+void input(int *a,int size)
+{
+    int i;
+    for(i=0;i<size;i++)
+    {
+        printf("enter element[%d] =",i);
+        scanf("%d",&a[i]);
+    }
+}
+
+int linearsearch(int a[],int size,int key)
+{
+    int i;
+    for(i=0;i<size;i++)
+    {
+        if(a[i]==key)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void main()
+{
+    int a[100],n,key,res;
+    printf("enter number of elements in an array:");
+    scanf("%d",&n);
+    printf("enter number in an array:\n");
+    input(a,n);
+    printf("enter key to be seaarch:");
+    scanf("%d",&key);
+    res=linearsearch(a,n,key);
+    if(res==-1)
+    {
+        printf("key not found");
+    }
+    else
+    {
+        printf("key found at index %d",res);
+    }
+}    
+
+
+BINARY SEARCH
+//Binary search
+#include<stdio.h>
+void input(int *a,int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+    {
+        printf("enter element[%d] =",i);
+        scanf("%d",&a[i]);
+    }
+}
+
+int binarysearch(int a[],int n,int key)
+{
+    int f=0,l=n-1,mid=0;
+    while(f<=l)
+    {
+        mid=(f+l)/2;
+        if(a[mid]==key)
+        {
+            return mid;
+        }
+        else if(a[mid]<key)
+        {
+            f=mid+1;
+        }
+        else
+        {
+            l=mid-1;
+        }
+    }
+    return -1;
+}
+
+void main()
+{
+    int a[10],key,res;
+    printf("enter number in an array:\n");
+    input(a,10);
+    printf("enter key to be seaarch:");
+    scanf("%d",&key);
+    res=binarysearch(a,10,key);
+    if(res==-1)
+    {
+        printf("key not found");
+    }
+    else
+    {
+        printf("key found at index %d",res);
+    }
+}    
+
+
+MERGE OF TWO SORT ARRAYS
+#include<stdio.h>
+#include<conio.h>
+
+void main()
+{
+    int a[40],b[40],c[80],i,m,n,t,lf,ll,rf,rl;
+    printf("enter number of element in an array:");
+    scanf("%d",&m);
+    printf("enter element only in sorted way\n");
+    for(i=0;i<m;i++)
+    {
+        printf("enter a[%d]=",i);
+        scanf("%d",&a[i]);
+    }
+    printf("enter number of element in an array:");
+    scanf("%d",&n);
+    printf("enter element only in sorted way\n");
+    for(i=0;i<n;i++)
+    {
+        printf("enter b[%d]=",i);
+        scanf("%d",&b[i]);
+    }
+    lf=0;
+    rf=0;
+    ll=m-1;
+    rl=n-1;
+    t=0;
+    while(lf<=ll && rf<=rl)
+    {
+        if(a[lf]<b[rf])
+        {
+            c[t]=a[lf];
+            t++;
+            lf++;
+        }
+        else
+        {
+            c[t]=b[rf];
+            t++;
+            rf++;
+        }
+    }
+    while(lf<=ll)
+    {
+        c[t]=a[lf];
+            t++;
+            lf++;
+    }
+    while(rf<=rl)
+    {
+        c[t]=b[rf];
+            t++;
+            rf++;
+    }
+    printf("merged array\n");
+    for(i=0;i<(m+n);i++)
+    {
+        printf("%d\t",c[i]);
+    }
+}
+
+
+
+MULTIPLICATION OF MATRIX
+#include<stdio.h>
+#include<conio.h>
+void main()
+{
+    int a[4][4],b[4][4],c[4][4],i,j,k,m,n,p,q;
+    printf("enter number of row in an array:");
+    scanf("%d",&m);
+    printf("enter number of column in an array:");
+    scanf("%d",&n);
+    for(i=0;i<m;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            printf("enter a[%d][%d]=",i,j);
+            scanf("%d",&a[i][j]);
+        }
+    }
+    printf("enter number of row in an array:");
+    scanf("%d",&p);
+    printf("enter number of column in an array:");
+    scanf("%d",&q);
+    for(i=0;i<p;i++)
+    {
+        for(j=0;j<q;j++)
+        {
+            printf("enter b[%d][%d]=",i,j);
+            scanf("%d",&b[i][j]);
+        }
+    }
+    
+    if(n==p)
+    {
+        for(i=0;i<m;i++)
+        {
+            for(j=0;j<q;j++)
+            {
+                c[i][j]=0;
+                for(k=0;k<n;k++)
+                {
+                    c[i][j]=c[i][j]+a[i][k]*b[k][j];
+                }
+                printf("%d\t",c[i][j]);
+            }
+            printf("\n");
+        }
+    }
+    else
+    {
+        printf("addition not possible");
+    }
+}
